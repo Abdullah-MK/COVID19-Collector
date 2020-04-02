@@ -18,10 +18,12 @@ def main():
     time.sleep(1)
 
     GCC(driver)
-    #time.sleep(2)
-    #World_Wide(driver)
-    #time.sleep(2)
-    #Top12(driver)
+    time.sleep(2)
+    World_Wide(driver)
+    time.sleep(2)
+    Top12(driver)
+
+    driver.close()
 
 def GCC(driver = webdriver.Chrome):
     print('-Graping GCC Countries informations...')
@@ -54,7 +56,7 @@ def GCC(driver = webdriver.Chrome):
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
             continue
 
-    all_GCC = int(str(SA).replace(',','')) + int(UAE) + int(Q8) + int(Bahrain) + int(Qatar) + int(Oman)
+    all_GCC = int(str(SA).replace(',','')) + int(str(UAE).replace(',','')) + int(str(Q8).replace(',','')) + int(str(Bahrain).replace(',','')) + int(str(Qatar).replace(',','')) + int(str(Oman).replace(',',''))
     date = get_date()
 
     payload = 'إحصائيات دول الخليج ' + '\n' + \
@@ -75,8 +77,6 @@ def GCC(driver = webdriver.Chrome):
 
 def World_Wide(driver = webdriver.Chrome):
     print('-Graping World_Wide Countries informations...')
-
-    driver2 = webdriver.Chrome
 
     three_elements = driver.find_elements_by_xpath('//*[@id="maincounter-wrap"]/div/span')
     COVIDcases = three_elements[0].text
@@ -159,6 +159,9 @@ def translator(name):
     search_box.send_keys(name)
     time.sleep(2)
     response = driver.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]').text
+
+    if (response == 'ديك رومي'):
+        response = 'تركيا'
 
     return response
 
