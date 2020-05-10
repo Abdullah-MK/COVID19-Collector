@@ -1,32 +1,32 @@
 import TwitterBot
 from selenium import webdriver
 from datetime import datetime
-from datetime import datetime
+from selenium.webdriver.chrome.options import Options
 import time
 
-username = 'YOUR USERNAME'
-password = 'YOUR PASSWORD'
+username = 'YOUR_USERNAME'
+password = 'YOUR_PASSWORD'
 time_opj = datetime.now()
-
 
 def main():
     print('Time of the system : '+str(time_opj))
+
     driver = webdriver.Chrome()
     driver.get("https://www.worldometers.info/coronavirus/")
-    #driver.maximize_window()
-    #driver.execute_script("window.scrollTo(0, 400)")
     time.sleep(1)
 
     GCC(driver)
     time.sleep(2)
     World_Wide(driver)
     time.sleep(2)
-    Top12(driver)
+    Top10(driver)
 
     driver.close()
 
 def GCC(driver = webdriver.Chrome):
     print('-Graping GCC Countries informations...')
+
+    temp = []
 
     for i in range(1, 200):
         find_country_name = driver.find_element_by_xpath(
@@ -34,26 +34,32 @@ def GCC(driver = webdriver.Chrome):
         if (find_country_name == 'Saudi Arabia'):
             SA = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('المملكة العربية السعودية: ' + str(SA))
             continue
         if (find_country_name == 'UAE'):
             UAE = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('الامارات العربية المتحدة: ' + str(UAE))
             continue
         if (find_country_name == 'Kuwait'):
             Q8 = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('الكويت: ' + str(Q8))
             continue
         if (find_country_name == 'Bahrain'):
             Bahrain = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('البحرين: ' + str(Bahrain))
             continue
         if (find_country_name == 'Qatar'):
             Qatar = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('قطر: ' + str(Qatar))
             continue
         if (find_country_name == 'Oman'):
             Oman = driver.find_element_by_xpath(
                 '//*[@id="main_table_countries_today"]/tbody[1]/tr[' + str(i) + ']/td[2]').text
+            temp.append('سلطنة عُمان: ' + str(Oman))
             continue
 
     all_GCC = int(str(SA).replace(',','')) + int(str(UAE).replace(',','')) + int(str(Q8).replace(',','')) + int(str(Bahrain).replace(',','')) + int(str(Qatar).replace(',','')) + int(str(Oman).replace(',',''))
@@ -62,18 +68,19 @@ def GCC(driver = webdriver.Chrome):
     payload = 'إحصائيات دول الخليج ' + '\n' + \
               'آخر تحديث: ' + str(date) + '\n' + \
               'عدد الحالات المؤكدة في دول الخليج العربي: ' + str(all_GCC) + '\n' + \
-              'المملكة العربية السعودية: ' + str(SA) + '\n' + \
-              'الامارات العربية المتحدة: ' + str(UAE) + '\n' + \
-              'الكويت: ' + str(Q8) + '\n' + \
-              'البحرين: ' + str(Bahrain) + '\n' + \
-              'قطر: ' + str(Qatar) + '\n' + \
-              'سلطنة عُمان: ' + str(Oman) + '\n' + \
+              str(temp[0]) + '\n' + \
+              str(temp[1]) + '\n' + \
+              str(temp[2]) + '\n' + \
+              str(temp[3]) + '\n' + \
+              str(temp[4]) + '\n' + \
+              str(temp[5]) + '\n' + \
               '#كورونا #كوفيد19 #كوفيد_19 '
 
     print('-Pass GCC payload to TwitterBot script...')
     print(payload)
-    bot = TwitterBot.TwitterBot(username, password)
-    bot.login(payload)
+    print('payload writed to the file successfully')
+    #bot = TwitterBot.TwitterBot(username, password)
+    #bot.login(payload)
 
 def World_Wide(driver = webdriver.Chrome):
     print('-Graping World_Wide Countries informations...')
@@ -100,70 +107,76 @@ def World_Wide(driver = webdriver.Chrome):
 
     print('-Pass World_Wide payload to TwitterBot script...')
     print(payload)
-    bot = TwitterBot.TwitterBot(username, password)
-    bot.login(payload)
+    print('payload writed to the file successfully')
+    #bot = TwitterBot.TwitterBot(username, password)
+    #bot.login(payload)
 
-def Top12(driver = webdriver.Chrome):
-    print('-Graping Top12 Countries informations...')
-    date = get_date()
-    name1 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[2]/td[1]/a').text)
-    name2 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[3]/td[1]/a').text)
-    name3 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[4]/td[1]/a').text)
-    name4 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[5]/td[1]/a').text)
-    name5 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[6]/td[1]/a').text)
-    name6 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[7]/td[1]/a').text)
-    name7 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[8]/td[1]/a').text)
-    name8 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[9]/td[1]/a').text)
-    name9 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[10]/td[1]/a').text)
-    name10 = translator(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[11]/td[1]/a').text)
+def Top10(driver = webdriver.Chrome):
+    print('-Graping Top10 Countries informations...')
+    names = []
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[4]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[7]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[8]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[9]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[10]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[11]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[12]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[13]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[14]/td[1]/a').text)
+    names.append(driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[15]/td[1]/a').text)
+    names = translator(names)
 
-    num1 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[2]/td[2]').text
-    num2 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[3]/td[2]').text
-    num3 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[4]/td[2]').text
-    num4 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[5]/td[2]').text
-    num5 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[6]/td[2]').text
-    num6 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[7]/td[2]').text
-    num7 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[8]/td[2]').text
-    num8 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[9]/td[2]').text
-    num9 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[10]/td[2]').text
-    num10 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[11]/td[2]').text
+    num1 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[4]/td[2]').text
+    num2 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[7]/td[2]').text
+    num3 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[8]/td[2]').text
+    num4 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[9]/td[2]').text
+    num5 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[10]/td[2]').text
+    num6 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[11]/td[2]').text
+    num7 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[12]/td[2]').text
+    num8 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[13]/td[2]').text
+    num9 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[14]/td[2]').text
+    num10 = driver.find_element_by_xpath('//*[@id="main_table_countries_today"]/tbody[1]/tr[15]/td[2]').text
 
     date = get_date()
 
 
     payload = 'أول 10 دول في عدد الإصابات'+'\n'+\
               'آخر تحديث: ' + date + '\n' + \
-              str(name1) + ': ' + str(num1) + '\n' + \
-              str(name2) + ': ' + str(num2) + '\n' + \
-              str(name3) + ': ' + str(num3) + '\n' + \
-              str(name4) + ': ' + str(num4) + '\n' + \
-              str(name5) + ': ' + str(num5) + '\n' + \
-              str(name6) + ': ' + str(num6) + '\n' + \
-              str(name7) + ': ' + str(num7) + '\n' + \
-              str(name8) + ': ' + str(num8) + '\n' + \
-              str(name9) + ': ' + str(num9) + '\n' + \
-              str(name10) + ': ' + str(num10) + '\n' + \
+              str(names[0]) + ': ' + str(num1) + '\n' + \
+              str(names[1]) + ': ' + str(num2) + '\n' + \
+              str(names[2]) + ': ' + str(num3) + '\n' + \
+              str(names[3]) + ': ' + str(num4) + '\n' + \
+              str(names[4]) + ': ' + str(num5) + '\n' + \
+              str(names[5]) + ': ' + str(num6) + '\n' + \
+              str(names[6]) + ': ' + str(num7) + '\n' + \
+              str(names[7]) + ': ' + str(num8) + '\n' + \
+              str(names[8]) + ': ' + str(num9) + '\n' + \
+              str(names[9]) + ': ' + str(num10) + '\n' + \
               '#كورونا #كوفيد19 #كوفيد_19 '
 
     print('-Pass Top12 payload to TwitterBot script...')
     print(payload)
-    bot = TwitterBot.TwitterBot(username, password)
-    bot.login(payload)
+    print('payload writed to the file successfully')
+    #bot = TwitterBot.TwitterBot(username, password)
+    #bot.login(payload)
 
-def translator(name):
+def translator(names):
     driver = webdriver.Chrome()
     driver.get("https://translate.google.com.sa/?hl=ar")
 
     search_box = driver.find_element_by_xpath('//*[@id="source"]')
-    search_box.click()
-    search_box.send_keys(name)
-    time.sleep(2)
-    response = driver.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]').text
+    for i in range(0, len(names)):
+        search_box.clear()
+        search_box.click()
+        search_box.send_keys(names[i])
+        time.sleep(1.5)
+        response = driver.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]').text
+        if (response == 'ديك رومي'):
+            response = 'تركيا'
+        names[i] = response
 
-    if (response == 'ديك رومي'):
-        response = 'تركيا'
-
-    return response
+    driver.close()
+    return names
 
 def get_date():
     now = datetime.now()
